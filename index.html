@@ -1,116 +1,423 @@
-<html>
-	<head>
-		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-		<style>
-			h1 {
-				text-align: center;
-			}
 
-			.container {
-				margin: 0 auto;
-				padding: 60px 20%;
-			}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-			figure {
-				text-align: center;
-			}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-			img {
-				display: inline-block;
-			}
+    <title>CS184/284A Homework 2 Write-Up</title>
 
-			body {
-				font-family: 'Inter', sans-serif;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="container">
-		<h1>CS184/284A Fall 2026 Homework 2 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+    <style>
+        h1 {
+            text-align: center;
+        }
 
-		<br>
+        .container {
+            margin: 0 auto;
+            padding: 60px 5%;
+            max-width: 1400px;
+        }
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/fa26">cs184.eecs.berkeley.edu/fa26</a>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
 
-		<br>
-		
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/fa26">cs184.eecs.berkeley.edu/fa26</a>
+        figure {
+            text-align: center;
+            margin: 0;
+            min-width: 0;
+        }
 
-		<figure>
-			<img src="assets/teapot.png" alt="Teapot" style="width:50%"/>
-			<figcaption>You can add images with captions!</figcaption>
-		</figure>
+        img {
+            display: inline-block;
+        }
 
-		<!--
-		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
-		-->
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+            margin: 28px 0;
+            align-items: center;
+        }
 
-		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+        .gallery figure {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-width: 0;
+        }
 
-		<h2>Section I: Bezier Curves and Surfaces</h2>
+        .gallery figure img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
 
-		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        .gallery.five {
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 20px;
+            justify-items: center;
+            align-items: center;
+        }
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
-		<div style="display: flex; flex-direction: column; align-items: center;">
-			<table style="width: 100%; text-align: center; border-collapse: collapse;">
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="assets/teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="assets/teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="assets/teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="assets/teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			</table>
-		</div>
+        /* First row: steps 1, 2, 3 */
+        .gallery.five figure:nth-child(1) {
+            grid-column: 1 / span 2;
+        }
 
-		<h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        .gallery.five figure:nth-child(2) {
+            grid-column: 3 / span 2;
+        }
 
-		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
+        .gallery.five figure:nth-child(3) {
+            grid-column: 5 / span 2;
+        }
 
-		<h3>Part 3: Area-weighted vertex normals</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        /* Second row: steps 4, 5 centered */
+        .gallery.five figure:nth-child(4) {
+            grid-column: 2 / span 2;
+        }
 
-		<h3>Part 4: Edge flip</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        .gallery.five figure:nth-child(5) {
+            grid-column: 4 / span 2;
+        }
 
-		<h3>Part 5: Edge split</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        figcaption {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
 
-		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        @media (max-width: 900px) {
+            .container {
+                padding: 40px 4%;
+            }
 
-		<h2>(Optional) Section III: Potential Extra Credit - Art Competition: Model something Creative</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            .gallery.five {
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+                gap: 12px;
+            }
+        }
 
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
-		</div>
-	</body>
+        @media (max-width: 600px) {
+            .container {
+                padding: 24px 5%;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery.five {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .gallery.five figure:nth-child(n) {
+                grid-column: auto;
+            }
+
+            .gallery.five figure:last-child {
+                grid-column: 1 / -1;
+                width: 50%;
+                justify-self: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>CS184/284A Homework 2 Write-Up</h1>
+    <div style="text-align: center;">Name: Erica Liu</div>
+
+    <br>
+
+    Link to webpage:
+    <a href="https://cal-cs184-student.github.io/hw2-erica-hw2-writeup/">Webpage</a>
+
+    <br><br>
+
+    Link to GitHub repository:
+    <a href="https://github.com/cal-cs184-student/hw2-erica-hw2">Github</a>
+
+    <h2>Overview</h2>
+
+    <p>
+        In this homework, I implemented Bezier curves and surfaces using
+        Casteljau's algorithm, and explored usages of the half-edge data structure. These operations included
+        area-weighted vertex normals, edge flips, edge splits, and Loop
+        subdivision. It was very interesting to explore how powerful the half-edge structure was, and
+		how many applications there are of a relatively simple structure.
+    </p>
+
+    <h2>Section I: Bezier Curves and Surfaces</h2>
+
+    <h3>Part 1</h3>
+
+    <p>
+        Given a number of control points, de Casteljau's algorithm interpolates
+        between each set of consecutive points, depending on the parameter t.
+        This process repeats, interpolating between the new points until only
+        one point remains. This final point lies on the Bezier curve. I
+        implemented one step of de Casteljau's algorithm by looping through
+        the control points and evaluating the interpolated point between each
+        consecutive pair using (1 - t) * points[i] + t * points[i + 1].
+    </p>
+
+    <div class="gallery five">
+        <figure>
+            <img src="../screenshots/part1_1.png" alt="Bezier construction step 1">
+            <figcaption>Step 1</figcaption>
+        </figure>
+
+        <figure>
+            <img src="../screenshots/part1_2.png" alt="Bezier construction step 2">
+            <figcaption>Step 2</figcaption>
+        </figure>
+
+        <figure>
+            <img src="../screenshots/part1_3.png" alt="Bezier construction step 3">
+            <figcaption>Step 3</figcaption>
+        </figure>
+
+        <figure>
+            <img src="../screenshots/part1_4.png" alt="Bezier construction step 4">
+            <figcaption>Step 4</figcaption>
+        </figure>
+
+        <figure>
+            <img src="../screenshots/part1_5.png" alt="Bezier construction step 5">
+            <figcaption>Step 5</figcaption>
+        </figure>
+    </div>
+
+    <div class="gallery">
+        <figure>
+            <img src="../screenshots/part1_curve.png" alt="Final Bezier curve">
+            <figcaption>Final Bezier curve</figcaption>
+        </figure>
+
+        <figure>
+            <img src="../screenshots/part1_modified.png" alt="Bezier curve at a different parameter">
+            <figcaption>Curve at a different parameter t</figcaption>
+        </figure>
+    </div>
+
+    <h3>Part 2</h3>
+
+    <p>
+        To extend de Casteljau's algorithm to Bezier surfaces, I applied the
+        one-dimensional algorithm twice, once along each parameter direction.
+        Because a Bezier surface is defined by control points on a two-dimensional
+        grid, I first applied the same process as in the one-dimensional case
+        to each row, producing one point per row. I then treated these points as
+        a new set of control points and evaluated them again using the
+        one-dimensional algorithm to obtain the final point on the surface.
+        In my implementation, I repeatedly used evaluateStep until obtaining
+        one point per row, then applied the function again to interpolate
+        across the rows.
+    </p>
+
+    <div class="gallery">
+        <figure>
+            <img src="../screenshots/part2_teapot.png" alt="Bezier surface teapot">
+            <figcaption>Bezier surface rendered as a teapot</figcaption>
+        </figure>
+    </div>
+
+    <h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
+
+    <h3>Part 3</h3>
+
+    <p>
+        To implement area-weighted vertex normals, I iterated through all faces
+        adjacent to a vertex. For each face, I used the cross product of its
+        edge vectors to calculate an area-weighted normal. I then summed these
+        normals and normalized the result to obtain the vertex normal.
+    </p>
+
+    <div class="gallery">
+        <figure>
+            <img src="../screenshots/part3_teapot_without_normals.png"
+                 alt="Teapot without vertex normals">
+            <figcaption>Teapot rendering without vertex normals</figcaption>
+        </figure>
+
+        <figure>
+            <img src="../screenshots/part3_teapot_with_normals.png"
+                 alt="Teapot with vertex normals">
+            <figcaption>Teapot rendering with vertex normals</figcaption>
+        </figure>
+    </div>
+
+    <p>
+        The shading is much smoother and more gradual with vertex normals,
+        rather than appearing as individually shaded triangles. Averaging
+        the face normals around each vertex allows the lighting to vary
+        smoothly across the surface.
+    </p>
+
+    <h3>Part 4</h3>
+
+    <p>
+        I implemented the edge flip operation by first identifying the six
+        halfedges belonging to the two triangles adjacent to the edge being
+        flipped. I then identified the corresponding faces, vertices, and edges
+        and updated the halfedge pointers to reflect the new diagonal and
+        triangle connectivity.
+    </p>
+
+    <p>
+        Initially, I found it confusing to determine how to update the triangles.
+        Drawing the diagram in detail on paper helped considerably. I labeled
+        every halfedge, face, and vertex, which made it much easier to track
+        the pointer changes than trying to reason about the mesh abstractly.
+    </p>
+
+    <div class="gallery">
+        <figure>
+            <img src="../screenshots/part4_without_flips.png"
+                 alt="Teapot before edge flips">
+            <figcaption>Teapot rendering without flips</figcaption>
+        </figure>
+
+        <figure>
+            <img src="../screenshots/part4_with_flips.png"
+                 alt="Teapot after edge flips">
+            <figcaption>Teapot rendering with some flipped edges</figcaption>
+        </figure>
+    </div>
+
+    <h3>Part 5</h3>
+
+    <p>
+        To implement the edge split operation, I created six new halfedges and
+        two new faces to represent the split. I calculated the midpoint M
+        using the endpoints of the original edge. I then constructed the four
+        resulting triangles by updating the neighbors of the original and new
+        halfedges.
+    </p>
+
+    <p>
+        After working through Part 4, this operation was easier to debug because
+        I could build the new halfedges and faces on top of the diagram I had
+        drawn for the edge flip operation.
+    </p>
+
+    <div class="gallery">
+        <figure>
+            <img src="../screenshots/part5_without_anything.png"
+                 alt="Original teapot mesh">
+            <figcaption>Rendering before edge operations</figcaption>
+        </figure>
+
+        <figure>
+            <img src="../screenshots/part5_with_splits.png"
+                 alt="Teapot after edge splits">
+            <figcaption>Rendering with edge splits</figcaption>
+        </figure>
+
+        <figure>
+            <img src="../screenshots/part5_with_splits_and_flips.png"
+                 alt="Teapot after edge flips and splits">
+            <figcaption>Rendering with both edge flips and splits</figcaption>
+        </figure>
+    </div>
+
+    <h3>Part 6</h3>
+
+    <p>
+        I implemented Loop subdivision by following the steps in the assignment.
+        Before modifying the mesh, I computed updated positions for existing
+        vertices using Loop subdivision weights and a weighted average of their
+        neighboring vertex positions. I then computed updated edge positions
+        using a weighted average of the edge endpoints and the opposite vertices
+        of the adjacent triangles. After these calculations, I split each
+        original edge and flipped the new edges connecting old and new vertices.
+        Finally, I updated all vertex positions.
+    </p>
+
+    <p>
+        Initially, I made an error in the updated vertex calculation for vertices
+        with three neighbors versus the general case, which resulted in a spiky
+        figure. I resolved this by reviewing the Loop subdivision formulas and
+        correcting the weights used for the different vertex degrees.
+    </p>
+
+    <p>
+        With repeated subdivision, sharp corners and edges become rounded.
+        As shown below, the cube becomes smoother, and its original edges and
+        corners become less distinct. Pre-splitting selected edges helps preserve
+        more of the original cube shape, although the corners still become
+        somewhat rounded.
+    </p>
+
+    <div class="gallery">
+        <figure>
+            <img src="../screenshots/part6_cube.png" alt="Cube before subdivision">
+            <figcaption>Cube with no modifications</figcaption>
+        </figure>
+
+        <figure>
+            <img src="../screenshots/part6_smooth.png" alt="Smoothed cube after subdivision">
+            <figcaption>Upsampled cube with no modifications</figcaption>
+        </figure>
+    </div>
+
+    <div class="gallery">
+        <figure>
+            <img src="../screenshots/part6_cube_split.png"
+                 alt="Cube with edges pre-split">
+            <figcaption>Cube with selected edges pre-split</figcaption>
+        </figure>
+
+        <figure>
+            <img src="../screenshots/part6_smooth_split.png"
+                 alt="Cube after subdivision with pre-split edges">
+            <figcaption>Upsampled cube with splitting: more sharpness</figcaption>
+        </figure>
+    </div>
+
+    <p>
+        The original cube also becomes slightly asymmetric after repeated
+        subdivision. Loop subdivision updates each vertex based on its local
+        neighborhood, so differences in triangulation and connectivity can cause
+        corresponding regions to move differently. Small differences in the
+        mesh can become more noticeable over multiple iterations.
+    </p>
+
+    <p>
+        To reduce this asymmetry, I used edge flips to make the triangulation
+        of the cube's faces more symmetric. This changes the local connectivity
+        without introducing additional vertices. The resulting mesh has a more
+        consistent arrangement of edges and triangles across corresponding
+        regions, helping Loop subdivision produce a more symmetric shape.
+    </p>
+
+    <div class="gallery">
+        <figure>
+            <img src="../screenshots/part6_flips.png"
+                 alt="Cube after preprocessing with edge flips">
+            <figcaption>Cube after preprocessing with edge flips</figcaption>
+        </figure>
+
+        <figure>
+            <img src="../screenshots/part6_flipped_smooth.png"
+                 alt="Cube after subdivision with edge flip preprocessing">
+            <figcaption>
+                Upsampled cube with edge flips in preprocessing:
+                reduced asymmetry
+            </figcaption>
+        </figure>
+    </div>
+
+</div>
+</body>
 </html>
